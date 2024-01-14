@@ -1,0 +1,64 @@
+<template>
+  <el-form :model="queryParams"
+    label-position="left"
+    ref="queryForm" size="small" label-width="68px">
+    <el-row :gutter="20">
+      <el-col :span="4">
+        <el-form-item label="管理单元" prop="bb">
+          <el-select v-model="queryParams.bb" placeholder="请选择管理单元">
+            <el-option
+              v-for="item in unitSelectList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="4">
+        <el-form-item label-width="2px" label="" prop="value1">
+          <el-switch
+            v-model="queryParams.value1"
+            active-text="已考评"
+            inactive-text="未考评">
+          </el-switch>
+        </el-form-item>
+      </el-col>
+      <el-col :span="6">
+        <el-form-item label-width="18px">
+          <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+          <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        </el-form-item>
+      </el-col>
+    </el-row>
+  </el-form>
+</template>
+
+<script>
+import { unitSelectList } from '../data';
+  export default {
+    data() {
+      return {
+        unitSelectList,
+        queryParams: {}
+      }
+    },
+    methods: {
+      handleQuery() {
+        this.queryParams.pageNum = 1;
+        this.$emit('handleQuery', this.queryParams)
+      },
+      resetQuery() {
+        this.resetForm("queryForm");
+        this.handleQuery();
+      },
+    }
+  }
+</script>
+
+<style lang="scss" scoped>
+
+::v-deep.el-date-editor.el-input, .el-date-editor.el-input__inner {
+  width: 100%;
+}
+</style>
